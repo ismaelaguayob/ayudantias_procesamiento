@@ -224,7 +224,7 @@ print(texto_1)
 print(texto_3)
 ```
 
-Ya sabemos que `str_replace_all(texto_1, pattern = "<p>", replacement = "")` no es suficiente, ya que tenemos `</p>`, y en el texto 3 tenemos divs, strongs y incluso un tabulador. No podemos escribir código distinto para cada caso específico que encontremos en nuestros corpus.
+Ya sabemos que `str_replace_all(texto_1, pattern = "<p>", replacement = "")` no es suficiente, ya que tenemos `</p>`, y en el texto 3 tenemos divs, strongs y incluso un salto de línea. No podemos escribir código distinto para cada caso específico que encontremos en nuestros corpus.
 
 Lo que necesitamos es una forma de decirle a R: "No busques el texto literal `<p>`. Busca un patrón que se vea como una etiqueta HTML".
 

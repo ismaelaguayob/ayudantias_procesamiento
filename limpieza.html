@@ -97,7 +97,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Fecha de publicación</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">22 de octubre de 2025</p>
+        <p class="date">23 de octubre de 2025</p>
       </div>
     </div>
     
@@ -386,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] "&lt;div&gt;Aquí hay &lt;strong&gt;más&lt;/strong&gt; suciedad!\nY un salto de línea.&lt;/div&gt;"</code></pre>
 </div>
 </div>
-<p>Ya sabemos que <code>str_replace_all(texto_1, pattern = "&lt;p&gt;", replacement = "")</code> no es suficiente, ya que tenemos <code>&lt;/p&gt;</code>, y en el texto 3 tenemos divs, strongs y incluso un tabulador. No podemos escribir código distinto para cada caso específico que encontremos en nuestros corpus.</p>
+<p>Ya sabemos que <code>str_replace_all(texto_1, pattern = "&lt;p&gt;", replacement = "")</code> no es suficiente, ya que tenemos <code>&lt;/p&gt;</code>, y en el texto 3 tenemos divs, strongs y incluso un salto de línea. No podemos escribir código distinto para cada caso específico que encontremos en nuestros corpus.</p>
 <p>Lo que necesitamos es una forma de decirle a R: “No busques el texto literal <code>&lt;p&gt;</code>. Busca un patrón que se vea como una etiqueta HTML”.</p>
 <p>Para esto utilizamos las expresiones regulares.</p>
 <p>Aquí hay un índice de algunos metacaracteres y qué significan:</p>
