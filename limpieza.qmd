@@ -4,7 +4,7 @@ author:
   - name: "Ismael Aguayo"
     orcid: "0009-0002-4056-8242"
 date: today
-lang: en
+lang: es
 fontsize: 14pt
 format:
   html:
@@ -25,7 +25,7 @@ editor_options:
 
 # Configuración de la sesión e introducción
 
-Hola a todes. Bienvenidos a este tutorial sobre procesamiento y limpieza de texto en R, en el marco del curso de Métodos Computacionales para las Ciencias Sociales de la FACSO. Si están viendo esto fuera de la asignatura, espero les sirva de igual manera. 
+Hola a tod@s. Bienvenidos a este tutorial sobre procesamiento y limpieza de texto en R, en el marco del curso de Métodos Computacionales para las Ciencias Sociales de la FACSO. Si están viendo esto fuera de la asignatura, espero que les sirva de igual manera.
 
 En la unidad anterior, aprendieron a extraer datos, ya sea desde APIs o usando técnicas de web scraping. Lo más probable es que esos datos, tal como los tienen ahora, no estén listos para ser analizados. Seguramente tienen caracteres extraños, etiquetas HTML, saltos de línea, o simplemente un formato desordenado.
 
@@ -55,7 +55,7 @@ df_sucios <- data.frame(
   texto = c(
     "<p>Este es el primer texto. Con etiquetas de html.</p>",
     "    HOLA MUNDO, este es el segundo texto. Con espacios extra.    ",
-    "<div>Aquí hay <strong>más</strong> suciedad!\nY un salto de linea.</div>",
+    "<div>Aquí hay <strong>más</strong> suciedad!\nY un salto de línea.</div>",
     "Un texto final @usuario con un link http://socialtec.cl y #hashtag"
   )
 )
@@ -63,15 +63,13 @@ df_sucios <- data.frame(
 print(df_sucios)
 ```
 
--   En la fila 1, tenemos etiquetas HTML
+- En la fila 1, tenemos etiquetas HTML `<p>`
 
-    <p>
-
--   En la fila 2, tenemos mayúsculas descontroladas y un montón de espacios en blanco inútiles al principio y al final.
+- En la fila 2, tenemos mayúsculas descontroladas y un montón de espacios en blanco inútiles al principio y al final.
 
 - En la fila 3, tenemos más HTML, incluso anidado (`<strong>`), y un salto de línea \n.
 
--   Y en la fila 4, tenemos ruido típico de redes sociales: una mención, un link (URL) y un hashtag.
+- Y en la fila 4, tenemos ruido típico de redes sociales: una mención, un link (URL) y un hashtag.
 
 # Introducción a las funciones de stringr
 
@@ -129,14 +127,14 @@ Rara vez sabemos el lugar o índice exacto de la suciedad, pero igual es útil q
 
 ## Diagnosticando: str_length y str_detect
 
-Antes de limpiar, generalmente necesitamos diagnosticar el corpus de texto que tenemos. En muchos casos es imposible hacer esto manualmente, ya que se cuenta de muchas filas (miles o cientos de miles). Para esto utilizamos `str_length` y `str_detect`.
+Antes de limpiar, generalmente necesitamos diagnosticar el corpus de texto que tenemos. En muchos casos es imposible hacer esto manualmente, ya que consta de muchas filas (miles o cientos de miles). Para esto utilizamos `str_length` y `str_detect`.
 
 ```{r}
 str_length(texto_1)
 str_length(texto_limpio_2)
 ```
 
-`str_length` nos indica el número de carácteres de un texto. Nos puede servir para filtrar textos vacíos.
+`str_length` nos indica el número de caracteres de un texto. Nos puede servir para filtrar textos vacíos.
 
 Aquí nuestro mayor aliado es `str_detect`, que nos devuelve TRUE o FALSE si encuentra un patrón.
 
@@ -151,7 +149,7 @@ print(texto_4)
 str_detect(texto_4, pattern = "http")
 ```
 
-Esta función es muy útil para hacer filtros y categorías. Podríamos por ejemplo crear una nueva columna que nos indique que textos contienen un hashtag.
+Esta función es muy útil para hacer filtros y categorías. Podríamos por ejemplo crear una nueva columna que nos indique qué textos contienen un hashtag.
 
 ```{r}
 str_detect(texto_4, pattern = "#")
@@ -159,7 +157,7 @@ str_detect(texto_4, pattern = "#")
 
 ## Reemplazando la suciedad: str_replace (o str_remove)
 
-Podemos reemplazar un determinado patrón con la función `str_replace`. Si reemplazamos por nada, estariamos simulando el comportamiento de la función `str_remove`.
+Podemos reemplazar un determinado patrón con la función `str_replace`. Si reemplazamos por nada, estaríamos simulando el comportamiento de la función `str_remove`.
 
 ```{r}
 print(texto_1)
@@ -168,14 +166,14 @@ print(texto_sin_p)
 
 ```
 
-Tendríamos que hacer dos pasos, uno para cada etiqueta html.
+Tendríamos que hacer dos pasos, uno para cada etiqueta HTML.
 
 ```{r}
 texto_sin_p <- str_replace(texto_sin_p, pattern = "</p>", replacement = "") 
 print(texto_sin_p)
 ```
 
-Si quisieramos eliminar todas las coincidencias de un patrón usamos `str_replace_all`, pero en este caso tendríamos el mismo problema. Esto ya que busca un patrón exacto. Si queremos eliminar todas las etiquetas html vamos a necesitar usar expresiones regulares.
+Si quisiéramos eliminar todas las coincidencias de un patrón usamos `str_replace_all`, pero en este caso tendríamos el mismo problema. Esto ya que busca un patrón exacto. Si queremos eliminar todas las etiquetas HTML vamos a necesitar usar expresiones regulares.
 
 ```{r}
 print(texto_1)
@@ -188,18 +186,18 @@ print(texto_sin_letra_e)
 
 ```
 
-Para eliminar todas las letras "e" si funciona.
+Para eliminar todas las letras "e" sí funciona.
 
 ## str_extract
 
-Si quisiéramos extraer solo una parte del corpus, por ejemplo el hashtag, nos sirve esta función. Aquí viene un adelanto de expresiones regulares. Le estamos pidiendo un \# seguido de una cantidad de letras o numeros.
+Si quisiéramos extraer solo una parte del corpus, por ejemplo el hashtag, nos sirve esta función. Aquí viene un adelanto de expresiones regulares. Le estamos pidiendo un \# seguido de una cantidad de letras o números.
 
 ```{r}
 print(texto_4)
 str_extract(texto_4, pattern = "#[A-Za-z0-9]+")
 ```
 
-Solo extraerá la primera coicnidencia, si queremos todas se utiliza `str_extract_all`.
+Solo extraerá la primera coincidencia, si queremos todas se utiliza `str_extract_all`.
 
 ## str_split
 
@@ -228,19 +226,15 @@ print(texto_3)
 
 Ya sabemos que `str_replace_all(texto_1, pattern = "<p>", replacement = "")` no es suficiente, ya que tenemos `</p>`, y en el texto 3 tenemos divs, strongs y incluso un tabulador. No podemos escribir código distinto para cada caso específico que encontremos en nuestros corpus.
 
-Lo que necesitamos es una forma de decirle a R: "No busques el texto literal '
-
-<p>
-
-'. Busca un patrón que se vea como una etiqueta HTML".
+Lo que necesitamos es una forma de decirle a R: "No busques el texto literal `<p>`. Busca un patrón que se vea como una etiqueta HTML".
 
 Para esto utilizamos las expresiones regulares.
 
-Aquí hay un índice de algunos metacarácteres y que significan:
+Aquí hay un índice de algunos metacaracteres y qué significan:
 
 ![](Regex-Cheat-Sheet-3362983929.png)
 
-Lo importante no es que se los memoricen, si no que entiendan su funcionamiento general. El poder de regex nos permite en el parámetro 'pattern' especificar un rango de opciones mucho mayor que les ayudará a limpiar sus textos de forma mucho más eficaz.
+Lo importante no es que se los memoricen, sino que entiendan su funcionamiento general. El poder de regex nos permite en el parámetro 'pattern' especificar un rango de opciones mucho mayor que les ayudará a limpiar sus textos de forma mucho más eficaz.
 
 - . significa cualquier carácter
 - + significa uno o más del carácter anterior
@@ -253,7 +247,7 @@ str_remove_all(texto_1, pattern = "<.+>")
 
 Elimina todo. ¿Por qué pasa esto? El cuantificador + es "codicioso", intentará borrar todo lo posible, encuentra el primer <, empieza a eliminar, y no se detuvo hasta encontrar el último >.
 
-Una forma de solucionarlo es utilizando el cuantificador peresozo, le decimos que se detenga en la primera coincidencia posible.
+Una forma de solucionarlo es utilizando el cuantificador perezoso, le decimos que se detenga en la primera coincidencia posible.
 
 ```{r}
 
@@ -262,7 +256,7 @@ str_remove_all(texto_1, pattern = "<.+?>")
 
 Esto funciona, pero hay una forma más robusta de resolverlo. Podemos pedirle específicamente que no elimine ningún ">". 
 
-Para "cualquier carácter que NO sea...", usamos la clase negada: [^...]. Esto es más seguro y preferible. Probamos con el texto 3 y vemos que funciona, eliminando todas las etiquetas html.
+Para "cualquier carácter que NO sea...", usamos la clase negada: [^...]. Esto es más seguro y preferible. Probamos con el texto 3 y vemos que funciona, eliminando todas las etiquetas HTML.
 
 ```{r}
 texto_1_limpio <- str_remove_all(texto_1, pattern = "<[^>]+>")
@@ -276,7 +270,7 @@ texto_3_casi_limpio <- str_remove_all(texto_3, pattern = "<[^>]+>")
 print(texto_3_casi_limpio)
 ```
 
-Como ven, el texto 3 ya está casi listo para analizarlo, pero queda un salto de linea. Podemos reemplazarlo con replace_all (o remove_all) por un espacio o por nada. Miren sus datos para saber esto, normalmente los saltos de línea (\n) deberán cambiarlos por un espacio.
+Como ven, el texto 3 ya está casi listo para analizarlo, pero queda un salto de línea. Podemos reemplazarlo con replace_all (o remove_all) por un espacio o por nada. Miren sus datos para saber esto, normalmente los saltos de línea (\n) deberán cambiarlos por un espacio.
 ```{r}
 texto_3_limpio <- str_replace_all(texto_3_casi_limpio, pattern="\n", " ")
 
@@ -285,7 +279,7 @@ print(texto_3_limpio)
 
 # Automatizando la limpieza en corpus grandes de texto
 
-Ya vimos como limpiar un texto con stringr y regex, en diferentes situaciones, pero ¿Cómo lo hacemos en un dataframe completo? Tenemos varios enfoques.
+Ya vimos cómo limpiar un texto con stringr y regex, en diferentes situaciones, pero ¿Cómo lo hacemos en un dataframe completo? Tenemos varios enfoques.
 
 Primero, simularemos un dataframe de 100 filas con datos sucios. 
 ```{r}
@@ -301,9 +295,9 @@ df_grande <- data.frame( id_noticia = 1:100, titulo = sample(titulos, 100, repla
 print(head(df_grande))
 ```
 
-Tenemos html, mayusculas y espacios por todos lados. Necesitamos aplicar una limpieza en varios pasos:
+Tenemos HTML, mayúsculas y espacios por todos lados. Necesitamos aplicar una limpieza en varios pasos:
 
-1. Remover todo el html (`<[^>]+>`)
+1. Remover todo el HTML (`<[^>]+>`)
 2. Convertir todo a minúsculas (`str_to_lower`)
 3. Quitar espacios al inicio y final (`str_trim`)
 
@@ -342,7 +336,7 @@ Funciona! Ahora solo hay que aplicarla a cada fila.
 
 ## Primer enfoque: for loop
 
-Esta es la práctica más transparente y legible. Iteramos por cada fila, aplicamos la función y guardamos el contenido en un vector de carácteres. Luego, asignamos ese vector a una nueva columna (contenido limpio for)
+Esta es la práctica más transparente y legible. Iteramos por cada fila, aplicamos la función y guardamos el contenido en un vector de caracteres. Luego, asignamos ese vector a una nueva columna (contenido limpio for).
 ```{r}
 resultados_limpios_for <- c()
 
@@ -372,11 +366,11 @@ print(head(df_grande$contenido_limpio_sapply))
 
 ```
 
-Cómo ven, ambos enfoques dan el mismo resultado. Sapply por detrás es un bucle for, que itera por cada elemento y devuelve un vector. Lo más importante es la función que ustedes construyen y le entregan a sapply, en este caso, `limpiar_mi_texto`.
+Como ven, ambos enfoques dan el mismo resultado. Sapply por detrás es un bucle for, que itera por cada elemento y devuelve un vector. Lo más importante es la función que ustedes construyen y le entregan a sapply, en este caso, `limpiar_mi_texto`.
 
 ## Tercer enfoque: método directo
 
-Cómo bonus, stringr ya funciona de forma vectorial (es como si fuera un sapply por detrás, pero más eficiente). Para casos más sencillos es posible que simplemente aplicando las funciones de stringr sobre la columna ya lleguen a solucionar el problema.
+`stringr`, al igual que muchos paquetes del tidyverse funciona de forma vectorial. Para casos más sencillos es posible que simplemente aplicando las funciones de stringr sobre la columna ya lleguen a solucionar su problema. Este enfoque es mucho más eficiente, asi que prefiéranlo si están trabajando con grandes volúmenes de datos. En vez de iterar de a una fila a la vez, se aplica la función sobre toda la columna (como un vector) de manera simultánea, utilizando un lenguaje mucho más eficiente por detrás (c++).
 
 ```{r}
 df_grande$contenido_limpio_vec <- limpiar_mi_texto(df_grande$contenido)
@@ -385,7 +379,7 @@ print(head(df_grande$contenido_limpio_vec))
 
 ```
 
-Todas estos enfoques nos sirven para títulos:
+Todos estos enfoques nos sirven para títulos:
 
 ```{r}
 df_grande$titulo_limpio<- limpiar_mi_texto(df_grande$titulo)
@@ -394,9 +388,9 @@ df_grande$titulo_limpio<- limpiar_mi_texto(df_grande$titulo)
 
 # Uso de Inteligencia Artificial Generativa: Prácticas generales
 
-Llegando al final de este taller, es crucial abordar el tema del uso de Inteligencia Artificial. Esta se fue muy utilizada en sus entregas, e incluso es un objetivo pedagógico que aprendan a usarla. La IA es una herramienta muy poderosa para programar.
+Llegando al final de este taller, es crucial abordar el tema del uso de Inteligencia Artificial. Esta ha sido muy utilizada en sus entregas, e incluso es un objetivo pedagógico que aprendan a usarla. La IA es una herramienta muy poderosa para programar.
 
-Sin embargo, para usar esta de forma eficaz hay seguir buenas prácticas, y no basta con copiar y pegar lo que les pasa el chatbot. De esta forma, se quedan en la "caja negra", obtienen el resultado, pero no aprenden, y si su código falla en un futuro no sabrán como arreglarlo.
+Sin embargo, para usarla de forma eficaz hay que seguir buenas prácticas, y no basta con copiar y pegar lo que les pasa el chatbot. De esta forma, se quedan en la "caja negra", obtienen el resultado, pero no aprenden, y si su código falla en un futuro no sabrán cómo arreglarlo.
 
 El objetivo de este módulo es prepararlos para usar la IA como un co-piloto, que les ayude a acelerar el trabajo pero también a aprender.
 
@@ -406,7 +400,7 @@ La respuesta de la IA depende totalmente de la calidad de su pregunta. Este es u
 
 1. **Rol:** "Toma el rol de un experto en Procesamiento de Lenguaje Natural y programador senior de R, especializado en el Tidyverse".
 2. **Tarea:** "Necesito procesar un dataframe en R".
-3. **Contexto:** (La parte más importante!) "Tengo un dataframe con n filas y estas columnas: id_noticia y contenido. La columna contenido tiene texto sucio. Un ejemplo de una celda de contenido es: 'Un texto final @usuario con un link http://socialtec.cl y #hashtag'"
+3. **Contexto:** (¡La parte más importante!) "Tengo un dataframe con n filas y estas columnas: id_noticia y contenido. La columna contenido tiene texto sucio. Un ejemplo de una celda de contenido es: 'Un texto final @usuario con un link http://socialtec.cl y #hashtag'"
 4. **Reglas y formato:** "Necesito una función de R que tome este texto y:
 
 - Elimine todas las URLs que empiecen con 'http'.
@@ -423,21 +417,22 @@ De esta forma, no solo obtendrán un código que funciona, sino también entende
 
 ## Prácticas generales para usar la IA como co-piloto
 
-1.  Pedirle que les expliquen lo que está haciendo, si no entienden cada uno de los pasos algo está mal. Diganle que les explique el código paso a paso y de forma sencilla.
+1.  Pedirle que les expliquen lo que está haciendo, si no entienden cada uno de los pasos algo está mal. Díganle que les explique el código paso a paso y de forma sencilla.
 2.  Intentar que no comprima tanto el código. Las funciones de la familia apply son útlies para código de producción y para usuarios de R avanzados, pero disminuyen la legibilidad y no permiten ver la lógica detrás de las funciones que construyen. Necesitan código legible y comprensible, y una cadena de muchos `df$limpio <- sapply(df$sucio, function(x) str_trim(str_to_lower(x)))` puede ser muy compleja.
-3. Usenla como depurador (Debugger): ¡Es de los mejores usos! intenten avanzar lo que más puedan por su cuenta, y utilicen la Inteligencia Artificial para diagnosticar y resolver los errores que encuentren en el código.
+3. Úsenla como depurador (Debugger): ¡Es de los mejores usos! intenten avanzar lo que más puedan por su cuenta, y utilicen la Inteligencia Artificial para diagnosticar y resolver los errores que encuentren en el código.
 4. La IA inventa y alucina. Siempre revisen la documentación oficial de los paquetes como referencia, sobre todo para los procedimientos más sensibles (por ejemplo, si van a ejecutar algo en una base de datos y no tienen un backup, no peguen un código de la IA sin pensarlo).
+5. **Muy importante:** Si manejan datos sensibles tengan mucho cuidado con las políticas de la IA que están utilizando. No manden nunca datos privados que luego puedan utilizar para entrenar a sus modelos. 
 
 # Cierre y ejercicios
 
 Con esto llegamos al final de la cápsula. Hasta ahora:
 
 1. Revisamos las funciones de `stringr` en casos de uso aplicados
-2. Entendimos para que necesitamos `regex` y lo utilizamos para limpiar etiquetas de html
-3. Aprendimos a automatizar la limpieza de texto en dataframes, creando una función y aplicandola a través de tres envoques: `for loop`, `sapply` y vectorización
+2. Entendimos para qué necesitamos `regex` y lo utilizamos para limpiar etiquetas de HTML
+3. Aprendimos a automatizar la limpieza de texto en dataframes, creando una función y aplicándola a través de tres enfoques: `for loop`, `sapply` y vectorización
 4. Vimos como usar la IA como co-piloto en nuestro aprendizaje
 
-La idea es que estae taller les sirva para limpiar texto independiente del contexto en el que lo necesiten realizar. El proceso de limpieza no es lineal, es iterativo. Probablemente intentarán una función, luego verán otro carácter indeseado, corregirán su función y seguirán iterando.
+La idea es que este taller les sirva para limpiar texto independiente del contexto en el que lo necesiten realizar. El proceso de limpieza no es lineal, es iterativo. Probablemente intentarán una función, luego verán otro carácter indeseado, corregirán su función y seguirán iterando.
 
 Para practicar esto, les dejo los dos siguientes ejercicios:
 
@@ -477,4 +472,4 @@ Aplica tu nueva función limpiar_tweet al dataframe df_tweets (usando for, sappl
 
 Guarda el resultado en una nueva columna llamada texto_limpio.
 
-Bonus: Crea una nueva columna con los hashtag.
+Bonus: Crea una nueva columna con los hashtags.
