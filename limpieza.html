@@ -97,7 +97,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Fecha de publicación</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">23 de octubre de 2025</p>
+        <p class="date">28 de octubre de 2025</p>
       </div>
     </div>
     
@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="configuración-de-la-sesión-e-introducción" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Configuración de la sesión e introducción</h1>
-<p>Hola a tod@s. Bienvenidos a este tutorial sobre procesamiento y limpieza de texto en R, en el marco del curso de Métodos Computacionales para las Ciencias Sociales de la FACSO. Si están viendo esto fuera de la asignatura, espero que les sirva de igual manera.</p>
+<p>Hola a tod@s. Bienvenidos a este tutorial sobre procesamiento y limpieza de texto en R, realizado en el marco del curso de Métodos Computacionales para las Ciencias Sociales de la Universidad de Chile. Si están viendo esto fuera de la asignatura, espero que les sirva de igual manera.</p>
 <p>En la unidad anterior, aprendieron a extraer datos, ya sea desde APIs o usando técnicas de web scraping. Lo más probable es que esos datos, tal como los tienen ahora, no estén listos para ser analizados. Seguramente tienen caracteres extraños, etiquetas HTML, saltos de línea, o simplemente un formato desordenado.</p>
 <p>El objetivo de esta sesión es aprender los fundamentos para limpiar ese “texto sucio” y dejarlo preparado para un análisis de NLP.</p>
 <p>Vamos a empezar configurando nuestra sesión de R.</p>
@@ -172,7 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="creamos-datos-simulados-de-texto-sucio-en-un-dataframe" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="creamos-datos-simulados-de-texto-sucio-en-un-dataframe"><span class="header-section-number">1.2</span> Creamos datos simulados de texto sucio en un dataframe</h2>
-<p>Para esta cápsula, no vamos a cargar un set de datos gigante. Como cada uno de ustedes tiene datos distintos, con problemas de limpieza diferentes, lo más útil es crear nuestros propios datos simulados.</p>
+<p>Para este tutorial, no vamos a cargar un set de datos gigante. Como cada uno de ustedes tiene datos distintos, con problemas de limpieza diferentes, lo más útil es crear nuestros propios datos simulados.</p>
 <p>Vamos a crear un data.frame que contenga distintos tipos de “suciedad” que probablemente ustedes mismos están viendo en sus propios datos.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df_sucios <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -224,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] "    hola mundo, este es el segundo texto. con espacios extra.    "</code></pre>
 </div>
 </div>
-<p>Ahora todo está en minúsculas, pero seguimos teniendo espacios en blanco al inicio y al final. Esto puede obstaculizar nuestro conteo de palabras y análisis.</p>
+<p>La función <code>str_to_lower</code> soluciona esto: ahora todo está en minúsculas. Sin embargo, seguimos teniendo espacios en blanco al inicio y al final. Esto puede obstaculizar nuestro conteo de palabras y análisis.</p>
 </section>
 <section id="str_trim" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="str_trim"><span class="header-section-number">2.2</span> str_trim</h2>
@@ -414,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Esto funciona, pero hay una forma más robusta de resolverlo. Podemos pedirle específicamente que no elimine ningún “&gt;”.</p>
-<p>Para “cualquier carácter que NO sea…”, usamos la clase negada: [^...]. Esto es más seguro y preferible. Probamos con el texto 3 y vemos que funciona, eliminando todas las etiquetas HTML.</p>
+<p>Para “cualquier carácter que NO sea…”, usamos la clase negada: [^…]. Esto es más seguro y preferible. Probamos con el texto 3 y vemos que funciona, eliminando todas las etiquetas HTML.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>texto_1_limpio <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(texto_1, <span class="at">pattern =</span> <span class="st">"&lt;[^&gt;]+&gt;"</span>)</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -631,8 +631,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Aprendimos a automatizar la limpieza de texto en dataframes, creando una función y aplicándola a través de tres enfoques: <code>for loop</code>, <code>sapply</code> y vectorización</li>
 <li>Vimos como usar la IA como co-piloto en nuestro aprendizaje</li>
 </ol>
-<p>La idea es que este taller les sirva para limpiar texto independiente del contexto en el que lo necesiten realizar. El proceso de limpieza no es lineal, es iterativo. Probablemente intentarán una función, luego verán otro carácter indeseado, corregirán su función y seguirán iterando.</p>
-<p>Para practicar esto, les dejo los dos siguientes ejercicios:</p>
+<p>La idea es que este taller les sirva para limpiar texto independiente del contexto en el que lo necesiten realizar. El proceso de limpieza no es lineal, es iterativo. Probablemente intentarán una función, luego verán otro carácter indeseado, corregirán su función y seguirán iterando. Ante cualquier duda, no duden escribirme a mi <a href="mailto:ismaelaguayob@gmail.com">correo personal</a>.</p>
+<p>Para practicar estos contenidos, les dejo los dos siguientes ejercicios:</p>
 <section id="html-anidado" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="html-anidado"><span class="header-section-number">6.1</span> HTML anidado</h2>
 <p>Este es un solo texto. El desafío es que tiene varias etiquetas HTML anidadas y un salto de línea.</p>
