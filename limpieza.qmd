@@ -236,9 +236,8 @@ Aquí hay un índice de algunos metacaracteres y qué significan:
 
 Lo importante no es que se los memoricen, sino que entiendan su funcionamiento general. El poder de regex nos permite en el parámetro 'pattern' especificar un rango de opciones mucho mayor que les ayudará a limpiar sus textos de forma mucho más eficaz.
 
--   . significa cualquier carácter
--   
-    -   significa uno o más del carácter anterior
+-   `.` significa cualquier carácter
+-   `+`   significa uno o más del carácter anterior
 
 Intentemos eliminar todo lo que esté entre un '\<' y otro '\>'.
 
